@@ -1,0 +1,35 @@
+dependencies:
+    - smartcontractkit/chainlink-brownie-contracts@1.1.1
+
+compiler:
+    solc:
+      remappings:
+        - "@chainlink=smartcontractkit/chainlink-brownie-contracts@1.1.1"
+
+dotenv: .env
+
+#by default brownie will network default to be development, so when we run brownie in the cli
+#and dont mention any network such as "--network rinkeby" by default brownie will make it "--network development"
+#we can change the default to anything we wish, as below
+networks:
+  default: development
+  rinkeby: 
+    eth_usd_price_feed: "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e"
+    verify: True
+  mainnet-fork-dev: 
+    eth_usd_price_feed: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419"
+    verify: False  
+  development: 
+    verify: False
+  ganache-localMe:
+    verify: False
+    
+wallets:
+  from_key: ${PRIVATE_KEY}
+
+
+
+#when we have ganache GUI up on our own instead of using the one deployed by brownie
+#Brownie is smart enough to detect the ganache and use that instead to deploy contracts,transact and call 
+#But brownie doesnt save deployment information about development networks so we have to add the development network to brownie
+#and tell it to save deploment information about a development network and not just a test network like rinkeby
